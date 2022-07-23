@@ -1,0 +1,13 @@
+.container{
+    margin:0;
+    height:100vh; /* use 100% of the height of the viewport */
+    display:grid;             
+    place-items: center;
+}
+
+.start{
+    font-size: 5rem;
+    width: 500px;
+    height: 350px;
+    border-radius: 15px;
+}

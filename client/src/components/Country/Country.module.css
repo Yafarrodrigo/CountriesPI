@@ -1,0 +1,28 @@
+@import '../../colors.css';
+
+.card{
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    height: 250px;
+    cursor: pointer;
+    color: white;
+    text-shadow: 3px 3px black;
+    font-weight: 800;
+    background-repeat: no-repeat;
+    background-size:cover; 
+}
+
+.card > div{
+    align-self: flex-end;
+    border-radius: 15px;
+    width: fit-content;
+    background-color: #0009;
+
+    text-align: end;
+    backdrop-filter: blur(6px);
+}
+
+.card:hover{
+    border: 5px solid var(--secondary-hover);
+}

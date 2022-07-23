@@ -1,0 +1,51 @@
+@import '../../colors.css';
+
+.countriesContainer{
+    display: flex;
+    position: relative;
+    height: auto;
+    margin: 25px 0;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 5px;
+    padding: 10px;
+    width: 80%;
+    margin: 10px -75px;
+    background-color: var(--primary);
+    height: auto;
+    transform:skewX(-10deg);
+}
+
+.countriesContainer button{
+    width: 150px;
+    margin: 10px 75px;
+    height: auto;
+    z-index: 99999;
+    transform:skewX(-10deg);
+    user-select: initial;
+    border: none;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    cursor: pointer;
+    font-size: 5rem;
+    font-weight: 800;
+    background-color: var(--secondary);
+}
+
+.countriesContainer button:hover{
+    background-color: var(--secondary-hover);
+}
+
+.back  {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.forward  {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+

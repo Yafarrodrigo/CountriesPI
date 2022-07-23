@@ -1,0 +1,70 @@
+@import '../../colors.css';
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    user-select: none;
+    text-decoration: none;
+}
+
+.header {
+    display: flex;
+    justify-content:space-between;
+    height: 60px;
+    background-color: var(--primary);
+    box-shadow: 0px 0px 1px 2px #001111;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.header h1{
+    color: white;
+    margin: 5px 75px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.logo{
+    width: 50px;
+    margin: 5px 10px;
+    margin-left: 25px;
+    border-radius: 25%;
+    background-color: black;
+    
+}
+
+.header > form {
+    height: inherit;
+}
+
+.header > form > input {
+    height: 80%;
+    margin: 5px 5px;
+    padding: 0 10px;
+    font-size: 1.25rem;
+    border-radius: 5px;
+    border: none;
+}
+
+.header > form > input::placeholder{
+color: #aaa;
+}
+
+
+
+.header > form > button {
+    height: 80%;
+    margin: 5px 5px;
+    padding: 0 10px;
+    font-size: 1.25rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: var(--secondary);
+}
+
+.header > form > button:hover {
+    background-color: var(--secondary-hover);
+}
