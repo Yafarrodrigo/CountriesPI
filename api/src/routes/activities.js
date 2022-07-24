@@ -1,8 +1,25 @@
+const { response } = require("express")
+const { Country, Activity } = require('../db')
 const express = require("express")
 const router = express.Router()
 
-router.post("/", (req,res)=>{
-    res.status(200).send("/activities")
+router.post("/", async (req,res)=>{
+    const {id, name, difficulty, duration, season} = req.body
+
+    const activityExists = await Activity.findOne({
+        where: { name: name}
+    })
+
+    if(!activityExists){
+
+        const selectedCountry = await Country.findOne({where: {id: id}})
+        const newActivity = await Activity.create({name,difficulty,duration,season})
+
+        await newActivity.addCountry(selectedCountry)
+
+    }
+
+    res.status(200).json({msg:"TODO OK"})
 })
 
 

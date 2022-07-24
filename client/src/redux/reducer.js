@@ -8,7 +8,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_ALL_COUNTRIES": 
+    case "GET_COUNTRIES": 
       return {
         ...state,
         countries: action.payload.list,
