@@ -1,0 +1,14 @@
+.container {
+    margin: 5% auto;
+    width: 400px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: red;
+}
+
+.detail{
+    font-size: 1.5rem;
+    color: white;
+}

@@ -1,6 +1,7 @@
 const initialState = {
   countries: [],
   tenCountries :[],
+  selectedCountry: {},
   page: 1,
   maxPage: 1
 };
@@ -14,6 +15,12 @@ const reducer = (state = initialState, action) => {
         maxPage: action.payload.maxPage,
         tenCountries: action.payload.list.slice((state.page-1)*10 ,((state.page-1)*10+10))
       }
+
+    case "SELECT_COUNTRY":
+    return {
+      ...state,
+      selectedCountry: action.payload
+    }
 
     case "GET_TEN_COUNTRIES": 
       return {

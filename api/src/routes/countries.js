@@ -1,18 +1,26 @@
 const express = require("express")
 const router = express.Router()
 const axios = require('axios');
-const { response } = require("express");
-
-const internalDB = []
+const {Country} = require('../db')
+const { Op } = require('sequelize')
 
 router.get("/", async (req,res)=>{
     if(req.query.name){
-        res.status(200).send(`/countries?name=${req.query.name}`)
+        const response = await Country.findAll({
+            where:{
+                name: {
+                    [Op.iLike]: `%${req.query.name}%`
+                }
+            }
+        })
+        res.status(200).json(response)
     }
     else{
-        if(!internalDB.length){
+        const dbResponse = await Country.findAll()
+
+        if(!dbResponse.length){
             await axios.get("https://restcountries.com/v3/all")
-                .then(response => response.data.forEach(el => {
+                .then(response => response.data.forEach( async el => {
                     const newCountry = {
                         id: el.cca3,
                         name: el.name.common,
@@ -25,24 +33,31 @@ router.get("/", async (req,res)=>{
                     if(el.capital){
                         newCountry.capital = el.capital[0]
                     }else{
-                        newCountry.capital = "none"
+                        newCountry.capital = "not found"
                     }
-                    internalDB.push(newCountry)
+                    if(el.subregion){
+                        newCountry.subRegion = el.subregion
+                    }else{
+                        newCountry.subRegion = "not found"
+                    }
+
+                    await Country.create(newCountry)
+
                 }))   
                 console.log("del internet");
-                res.status(200).json(internalDB)
-        }
+                res.redirect("/countries")
+        } 
         else{
             console.log("info de mi base de datos");
-            res.status(200).json(internalDB)
+            res.status(200).json(dbResponse)
         }
+        
     }
-    
-    /* res.status(404).json({msg: "Error", arr: internalDB}) */
 })
 
-router.get("/:idPais", (req,res)=>{
-    res.status(200).send(`/countries/${req.params.idPais}`)
+router.get("/:idPais", async (req,res)=>{
+    const response = await Country.findByPk(req.params.idPais)
+    res.status(200).json(response)
 })
 
 

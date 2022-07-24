@@ -1,8 +1,9 @@
 import './App.css';
-import {Route} from 'react-router-dom'
+import {Route, Redirect} from 'react-router-dom'
 import Header from './components/Header/Header';
 import Landing from './components/Landing/Landing';
 import Home from './components/Home/Home'
+import CountryDetails from './components/CountryDetails/CountryDetails';
 
 function App() {
   return (
@@ -16,9 +17,13 @@ function App() {
         <Home />
       </Route>
 
-      <Route path="/countries">
+      <Route exact path="/countries">
+        <Redirect to="/home" />
+      </Route>
+
+      <Route path="/countries/:idPais">
         <Header />
-        <h1> ERROR </h1>
+        <CountryDetails />
       </Route>
   </>) 
 }
