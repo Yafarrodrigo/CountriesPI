@@ -12,6 +12,7 @@
 .header {
     display: flex;
     justify-content:space-between;
+    flex-wrap:nowrap;
     height: 60px;
     background-color: var(--primary);
     box-shadow: 0px 0px 1px 2px #001111;
@@ -39,7 +40,7 @@
     height: inherit;
 }
 
-.header > form > input {
+.header input {
     height: 80%;
     margin: 5px 5px;
     padding: 0 10px;
@@ -48,11 +49,20 @@
     border: none;
 }
 
-.header > form > input::placeholder{
+.header input::placeholder{
 color: #aaa;
 }
 
+.filters{
+    margin-left: 250px;
+}
 
+.header select{
+    font-size: 1.25rem;
+    height: 50%;
+    width: 200px;
+    margin: 15px 5px;
+}
 
 .header > form > button {
     height: 80%;

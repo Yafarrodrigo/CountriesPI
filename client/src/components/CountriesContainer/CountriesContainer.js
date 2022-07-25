@@ -5,7 +5,7 @@ import Pagination from '../Pagination/Pagination'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { getTenCoutries, increasePage, decreasePage, getAllCoutries } from '../../redux/actions'
+import {increasePage, decreasePage,getFilteredCountries, getAllCoutries } from '../../redux/actions'
 
 
 export default function CountriesContainer() {
@@ -13,10 +13,20 @@ export default function CountriesContainer() {
 
   const pageNumber = useSelector( state => state.page)
   const listOfCountries = useSelector(state => state.tenCountries)
+  const filter = useSelector( state => state.continentFilter)
+  const order = useSelector( state => state.order)
+  const countryName = useSelector( state => state.countryName)
+  
 
   useEffect(()=>{
-    dispatch(getTenCoutries())
-  },[dispatch, pageNumber])
+    dispatch(getAllCoutries())
+  },[dispatch])
+
+  useEffect(()=>{
+    dispatch(getFilteredCountries())
+   
+  },[dispatch, pageNumber, filter, order, countryName])
+
 
   const handleDecreasePage = () =>{
       return dispatch(decreasePage())

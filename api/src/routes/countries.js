@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const axios = require('axios');
-const {Country} = require('../db')
+const {Country, Activity} = require('../db')
 const { Op } = require('sequelize')
 
 router.get("/", async (req,res)=>{
@@ -72,7 +72,19 @@ router.get("/", async (req,res)=>{
 
 router.get("/:idPais", async (req,res)=>{
     try {
-        const response = await Country.findByPk(req.params.idPais)
+        const response = await Country.findAll({
+            where:{
+                id: req.params.idPais
+            },
+            include:[{
+                model:Activity,
+                through:{
+                    where:{
+                        countryId: req.params.idPais
+                    }
+                }
+            }]
+        })
         res.status(200).json(response)
     } catch (error) {
         res.status(404).json({msg: error.msg})
