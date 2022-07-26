@@ -44,7 +44,7 @@ export default function CountriesContainer() {
           <div className={styles.container}>
             {
               listOfCountries.map( (country, index) => (
-                <Link key={index} to={`/countries/${country.name}`}>
+                <Link key={index} to={`/countries/${country.id}`}>
                   <Country country={country}/>
                 </Link>
               ))

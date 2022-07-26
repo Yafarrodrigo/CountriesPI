@@ -36,45 +36,18 @@
     
 }
 
-.header > form {
-    height: inherit;
-}
-
-.header input {
-    height: 80%;
-    margin: 5px 5px;
-    padding: 0 10px;
+.backButton{
+    margin: 5px 15px;
     font-size: 1.25rem;
-    border-radius: 5px;
-    border: none;
-}
-
-.header input::placeholder{
-color: #aaa;
-}
-
-.filters{
-    margin-left: 250px;
-}
-
-.header select{
-    font-size: 1.25rem;
-    height: 50%;
-    width: 200px;
-    margin: 15px 5px;
-}
-
-.header > form > button {
-    height: 80%;
-    margin: 5px 5px;
-    padding: 0 10px;
-    font-size: 1.25rem;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
+    width: 150px;
+    height: 50px;
+    border-radius: 15px;
+    outline: none;
+    border: 2px solid #111a;
     background-color: var(--secondary);
+    cursor: pointer;
 }
 
-.header > form > button:hover {
+.backButton:hover{
     background-color: var(--secondary-hover);
 }

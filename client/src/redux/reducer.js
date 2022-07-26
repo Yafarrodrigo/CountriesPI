@@ -88,7 +88,7 @@ const reducer = (state = initialState, action) => {
     case "SELECT_COUNTRY":
     return {
       ...state,
-      selectedCountry: action.payload
+      selectedCountry: action.payload ? action.payload : {id: "error"}
     }
 
     case "INCREASE_PAGE":

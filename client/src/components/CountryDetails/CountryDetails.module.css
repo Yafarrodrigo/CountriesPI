@@ -1,11 +1,18 @@
+@import '../../colors.css';
+
 .container {
     margin: 5% auto;
+    padding: 15px;
     width: 400px;
     height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: red;
+    background-color: var(--primary);
+}
+
+.container img{
+    padding: 10px 0;
 }
 
 .detail{

@@ -1,0 +1,42 @@
+form {
+    height: inherit;
+}
+
+input {
+    height: 80%;
+    margin: 5px 5px;
+    padding: 0 10px;
+    font-size: 1.25rem;
+    border-radius: 5px;
+    border: none;
+}
+
+input::placeholder{
+    color: #aaa;
+}
+
+.filters{
+    margin-left: 250px;
+}
+
+select{
+    font-size: 1.25rem;
+    height: 50%;
+    width: 200px;
+    margin: 15px 5px;
+}
+
+form > button {
+    height: 80%;
+    margin: 5px 5px;
+    padding: 0 10px;
+    font-size: 1.25rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: var(--secondary);
+}
+
+form > button:hover {
+    background-color: var(--secondary-hover);
+}
