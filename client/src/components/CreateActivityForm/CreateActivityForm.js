@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styles from './CreateActivityForm.module.css'
 import axios from 'axios'
+import { Redirect } from 'react-router-dom'
+import { getAllCoutries } from '../../redux/actions'
+import { useDispatch } from 'react-redux'
 
 export default function CreateActivityForm() {
 
@@ -21,6 +24,8 @@ export default function CreateActivityForm() {
     const [suggestions, setSuggestions] = useState([{}])
     const [inputCountry, setInputCountry] = useState("")
     const [enableSuggestion, setEnableSuggestion] = useState(false)
+
+    const dispatch = useDispatch()
 
     useEffect(()=>{
         checkForErrors()
@@ -87,6 +92,7 @@ export default function CreateActivityForm() {
         if(!errors.nameError && !errors.durationError && !errors.countryError){
             axios.post("http://localhost:3001/activities", {...activityData,id: activityData.countryId})
                 .then(response => alert(response.data.msg))
+                .catch(error => console.log(error))
             setActivityData({
                 countryId: "",
                 name: "",
@@ -96,6 +102,8 @@ export default function CreateActivityForm() {
             })
             setInputCountry("")
             setSuggestions([])
+            dispatch(getAllCoutries())
+            return (<Redirect to="/home"/>)
         }
         else{
             alert("Faltan campos!")

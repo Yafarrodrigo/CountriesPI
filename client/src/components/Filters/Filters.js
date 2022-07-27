@@ -10,6 +10,9 @@ export default function Filters() {
     const activityName = useSelector( state => state.activityName)
     const filter = useSelector(state => state.continentFilter)
     const order = useSelector( state => state.order)
+
+    /* const state = useSelector( state => state)
+    console.log(state); */
   
     const handleCountryChange = (e)=>{
       dispatch(changeCountryName(e.target.value))

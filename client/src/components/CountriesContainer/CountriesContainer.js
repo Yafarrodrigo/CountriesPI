@@ -16,6 +16,7 @@ export default function CountriesContainer() {
   const filter = useSelector( state => state.continentFilter)
   const order = useSelector( state => state.order)
   const countryName = useSelector( state => state.countryName)
+  const activityName = useSelector( state => state.activityName)
   
 
   useEffect(()=>{
@@ -25,7 +26,7 @@ export default function CountriesContainer() {
   useEffect(()=>{
     dispatch(getFilteredCountries())
    
-  },[dispatch, pageNumber, filter, order, countryName])
+  },[dispatch, pageNumber, filter, order, countryName, activityName])
 
 
   const handleDecreasePage = () =>{

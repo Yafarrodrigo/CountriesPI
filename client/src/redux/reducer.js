@@ -20,6 +20,25 @@ const checkOrder = (state) => {
   else                    return (a,b) => a.name.localeCompare(b.name)
 }
 
+const fitlerByActivities = (state, arr) => {
+  let resultArr = []
+  let addedCountries = {}
+  if(state.activityName.length){
+    arr.forEach( country => {
+      country.activities.forEach( act => {
+        if(act.name.toLowerCase().includes(state.activityName.toLowerCase())){
+          if(!addedCountries[country.id]){
+            resultArr.push(country)
+            addedCountries[country.id] = true
+          }
+        }
+      })
+    })
+    return resultArr
+  } 
+  else return arr
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
 
@@ -53,23 +72,26 @@ const reducer = (state = initialState, action) => {
         const appliedFilterList = state.countries
           .filter( el => el.continent === state.continentFilter)
           .sort(checkOrder(state))
-          let nameFilterApplied = appliedFilterList
+        let nameFilterApplied = appliedFilterList
         if(state.countryName.length) nameFilterApplied = appliedFilterList.filter( el => el.name.toLowerCase().includes(state.countryName.toLowerCase()))
+        let lastResult = fitlerByActivities(state, nameFilterApplied)
         return{
           ...state,
-          filteredCountries: nameFilterApplied,
-          tenCountries: nameFilterApplied.slice((state.page-1)*10 ,((state.page-1)*10+10)),
-          maxPage: nameFilterApplied.length / 10 >= 1 ? Math.floor(nameFilterApplied.length / 10) : 1
+          filteredCountries: lastResult,
+          tenCountries: lastResult.slice((state.page-1)*10 ,((state.page-1)*10+10)),
+          maxPage: lastResult.length / 10 >= 1 ? Math.floor(lastResult.length / 10) : 1
         }
       }else{
-        const orderedList = state.countries.sort(checkOrder(state))
+        const orderedList = state.countries
+          .sort(checkOrder(state))
         let nameFilterApplied = orderedList
         if(state.countryName.length) nameFilterApplied = orderedList.filter( el => el.name.toLowerCase().includes(state.countryName.toLowerCase()))
+        let lastResult = fitlerByActivities(state, nameFilterApplied)
         return{
           ...state,
-          filteredCountries: nameFilterApplied,
-          tenCountries: nameFilterApplied.slice((state.page-1)*10 ,((state.page-1)*10+10)),
-          maxPage: state.countries.length / 10 >= 1 ? Math.floor(state.countries.length / 10) : 1
+          filteredCountries: lastResult,
+          tenCountries: lastResult.slice((state.page-1)*10 ,((state.page-1)*10+10)),
+          maxPage: lastResult.length / 10 >= 1 ? Math.floor(lastResult.length / 10) : 1
         }
       }
 
