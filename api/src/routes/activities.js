@@ -1,4 +1,3 @@
-const { response } = require("express")
 const { Country, Activity } = require('../db')
 const express = require("express")
 const router = express.Router()
@@ -6,32 +5,38 @@ const router = express.Router()
 router.post("/", async (req,res)=>{
     
     try {
-        const {id, name, difficulty, duration, season} = req.body
-        const activityExists = await Activity.findOne({
-            where: { name: name},
-            include: [{
-                model:Country,
-                where:{
-                    id: id
-                }
-            }]
-        })
-        
-        if(!activityExists){
+        const {name, difficulty, duration, season, countries} = req.body
+        let couldntCreate = 0
 
-            const selectedCountry = await Country.findOne({where: {id: id}})
-            const newActivity = await Activity.create({name,difficulty,duration,season})
-
-            await newActivity.addCountry(selectedCountry)
-            
-            res.status(200).json({msg:"Actividad agregada!"})
-
-        }else{
-            res.status(200).json({msg: "La actividad ya existe en ese pais!"})
+        if(!name || !difficulty || !duration || !season || !countries){
+            return res.status(404).json({msg: "incomplete form"})
         }
 
-    } catch (error) {
-        res.status(404).json({msg: error.msg})
+        for(let country of countries){
+            const activityExists = await Activity.findOne({
+                where: { name: name},
+                include: [{
+                    model:Country,
+                    where:{
+                        id: country.id
+                    }
+                }]
+            })
+
+            if(!activityExists){
+                
+                const selectedCountry = await Country.findOne({where: {id: country.id}})
+                const newActivity = await Activity.create({name,difficulty,duration,season})
+                
+                await newActivity.addCountry(selectedCountry)
+            }else{
+                couldntCreate++
+            }
+        }
+        return res.status(200).json({couldntCreate})
+    }
+    catch (error) {
+        return res.status(404).json({msg: error.msg})
     }
 })
 

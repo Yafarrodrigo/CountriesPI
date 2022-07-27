@@ -11,7 +11,13 @@
     border-radius: 15px;
 }
 
-.form button{
+#durationInput{
+    width: 25%;
+    height: 35px;
+    text-align: center;
+}
+
+.submitButton{
     width: 50%;
     margin: 5px auto;
     height: 50px;
@@ -86,12 +92,20 @@
 }
 
 .countriesSearch{
+    display: flex;
     text-align: center;
     width: 50%;
     display: flex;
     flex-direction: column;
     max-height: 250px;
     font-weight: 800;
+}
+
+.countryInputContainer{
+    width: 200%;
+    margin-left: -50%;
+    display: flex;
+    align-content:space-between;
 }
 
 .suggestionList{
@@ -114,6 +128,8 @@
 }
 
 .countryOption{
+    display: flex;
+    justify-content: center;
     margin: 0 auto;
     border: 1px solid #333;
     width: 100%;
@@ -123,6 +139,43 @@
     color: #0009;
 }
 
+.countryOption img{
+    margin-right: 5px;
+    width: 30px;
+    height: 20px;
+}
+
+.flagImg{
+    margin: 0 5px;
+    border: 1px solid #333;
+    width: 30px;
+    height: 20px;
+    background-color: white;
+    font-weight: 400;
+    color: #0009;
+    margin-right: 5px;
+}
+
+.addedCountriesContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.addedCountriesContainer img, .addedCountriesContainer h4{
+    margin: 5px 5px;
+}
+
 .countryOption:hover{
     background-color: #ddd;
+}
+
+.addButton{
+    width: 100px;
+    border-radius: 15px;
+    background-color: var(--secondary);
+    border: 1px solid #00aaaa77;
+}
+
+.addButton:hover {
+    background-color: var(--secondary-hover);
 }

@@ -1,3 +1,8 @@
+.filters{
+    margin-left: 250px;
+    display: flex;
+}
+
 form {
     height: inherit;
 }
@@ -9,14 +14,11 @@ input {
     font-size: 1.25rem;
     border-radius: 5px;
     border: none;
+    width: 100%;
 }
 
 input::placeholder{
     color: #aaa;
-}
-
-.filters{
-    margin-left: 250px;
 }
 
 select{

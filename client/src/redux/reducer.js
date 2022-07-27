@@ -39,61 +39,53 @@ const fitlerByActivities = (state, arr) => {
   else return arr
 }
 
+const applyFiltersAndSort = (state, arr) => {
+  let filteredArray = arr
+
+  // continents
+  if(state.continentFilter !== "all"){
+    filteredArray = arr.filter( el => el.continent === state.continentFilter)
+  }
+
+  // sort
+  filteredArray.sort(checkOrder(state))
+
+  // fitler by name
+  if(state.countryName.length){
+    filteredArray = filteredArray.filter( el => el.name.toLowerCase().includes(state.countryName.toLowerCase()))
+  }
+
+  // filter activities
+  if(state.activityName.length){
+    filteredArray = fitlerByActivities(state,filteredArray)
+  }
+
+  return filteredArray
+}
+
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
 
     case "GET_COUNTRIES": 
-
-      if(state.continentFilter !== "all"){
-        const filteredList = action.payload.list
-          .filter( el => el.continent === state.continentFilter)
-          .sort(checkOrder(state))
-        const newMaxPage = filteredList.length / 10 >= 1 ? Math.floor(filteredList.length / 10) : 1
+        const finalList = applyFiltersAndSort(state, action.payload.list)
+        const newMaxPage = finalList.length / 10 >= 1 ? Math.floor(finalList.length / 10) : 1
         return {
           ...state,
-          countries: action.payload.list,
-          filteredCountries: filteredList,
+          countries: finalList,
+          filteredCountries: finalList,
           maxPage: newMaxPage,
-          tenCountries: filteredList.slice((state.page-1)*10 ,((state.page-1)*10+10))
+          tenCountries: finalList.slice((state.page-1)*10 ,((state.page-1)*10+10))
         }
-      }else{
-        const orderedList = action.payload.list.sort((checkOrder(state)))
-        return {
-          ...state,
-          countries: action.payload.list,
-          filteredCountries: orderedList,
-          maxPage: action.payload.maxPage,
-          tenCountries: orderedList.slice((state.page-1)*10 ,((state.page-1)*10+10))
-        }
-      }
 
     case "GET_FILTERED_COUNTRIES":
-      if(state.continentFilter !== "all"){
-        const appliedFilterList = state.countries
-          .filter( el => el.continent === state.continentFilter)
-          .sort(checkOrder(state))
-        let nameFilterApplied = appliedFilterList
-        if(state.countryName.length) nameFilterApplied = appliedFilterList.filter( el => el.name.toLowerCase().includes(state.countryName.toLowerCase()))
-        let lastResult = fitlerByActivities(state, nameFilterApplied)
+        const lastResult = applyFiltersAndSort(state, state.countries)
         return{
           ...state,
           filteredCountries: lastResult,
           tenCountries: lastResult.slice((state.page-1)*10 ,((state.page-1)*10+10)),
           maxPage: lastResult.length / 10 >= 1 ? Math.floor(lastResult.length / 10) : 1
         }
-      }else{
-        const orderedList = state.countries
-          .sort(checkOrder(state))
-        let nameFilterApplied = orderedList
-        if(state.countryName.length) nameFilterApplied = orderedList.filter( el => el.name.toLowerCase().includes(state.countryName.toLowerCase()))
-        let lastResult = fitlerByActivities(state, nameFilterApplied)
-        return{
-          ...state,
-          filteredCountries: lastResult,
-          tenCountries: lastResult.slice((state.page-1)*10 ,((state.page-1)*10+10)),
-          maxPage: lastResult.length / 10 >= 1 ? Math.floor(lastResult.length / 10) : 1
-        }
-      }
 
     case "CHANGE_COUNTRY_NAME":
       return{

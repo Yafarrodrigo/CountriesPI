@@ -25,7 +25,7 @@ router.get("/", async (req,res)=>{
             })
             res.status(200).json(response)
         }
-        // query devulve solo name,id
+        // query devulve solo name,id,flagImg
         else if(req.query.onlyName){
             const response = await Country.findAll({
                 where:{
@@ -33,7 +33,7 @@ router.get("/", async (req,res)=>{
                         [Op.iLike]: `%${req.query.onlyName}%`
                     }
                 },
-                attributes: ['name','id']
+                attributes: ['name','id','flagImg']
                 
             })
             res.status(200).json(response)

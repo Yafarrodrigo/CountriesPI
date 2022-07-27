@@ -7,11 +7,11 @@ import { useDispatch } from 'react-redux'
 export default function CreateActivityForm() {
 
     const [activityData, setActivityData] = useState({
-        countryId: "",
         name: "",
         difficulty: "3",
-        duration: "",
-        season: "Summer"
+        duration: 1,
+        season: "Summer",
+        countries: []
     })
 
     const [errors, setErrors] = useState({
@@ -21,10 +21,18 @@ export default function CreateActivityForm() {
     })
 
     const [suggestions, setSuggestions] = useState([{}])
-    const [inputCountry, setInputCountry] = useState("")
+    const [inputCountry, setInputCountry] = useState({
+        name: "",
+        id: "",
+        img: ""
+    })
     const [enableSuggestion, setEnableSuggestion] = useState(false)
 
     const dispatch = useDispatch()
+
+    useEffect(()=>{
+        dispatch(getAllCoutries())
+    },[dispatch])
 
     useEffect(()=>{
         checkForErrors()
@@ -32,8 +40,8 @@ export default function CreateActivityForm() {
     }, [activityData, inputCountry])
 
     useEffect(()=>{
-        if(inputCountry.length){
-            axios.get(`http://localhost:3001/countries?onlyName=${inputCountry}`)
+        if(inputCountry.name.length){
+            axios.get(`http://localhost:3001/countries?onlyName=${inputCountry.name}`)
             .then(response => {
                 if(response.data.length){
                     setSuggestions(response.data)
@@ -41,23 +49,23 @@ export default function CreateActivityForm() {
                 else setSuggestions([])
             })
         }else{
-            setInputCountry("")
+            setInputCountry({name:"", id: "", img:""})
             setSuggestions([])
         }
 
         if(suggestions.includes(inputCountry)) setEnableSuggestion(false)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[inputCountry])
+    },[inputCountry.name])
 
     const handleInputCountry = (e) => {
-        setInputCountry(e.target.innerText)
-        setActivityData({
-            ...activityData,
-            countryId: e.target.id
+        suggestions.forEach(sugg => {
+            if(sugg.name.toLowerCase() === e.target.innerText.toLowerCase()){
+                setInputCountry({name :e.target.innerText, id: e.target.id})
+                setSuggestions([])
+                setEnableSuggestion(false)
+            }
         })
-        setSuggestions([])
-        setEnableSuggestion(false)
     }
 
     const onDifficultyChanged = (e) =>{
@@ -74,7 +82,6 @@ export default function CreateActivityForm() {
         })
     }
 
-
     const handleChange = (e) => {
         setActivityData({
             ...activityData,
@@ -83,30 +90,37 @@ export default function CreateActivityForm() {
     }
 
     const handleCountryChange = (e) => {
-        setInputCountry(e.target.value)  
+        setInputCountry({...inputCountry, name: e.target.value}) 
+        suggestions.forEach(sugg => {
+            if(sugg.name.toLowerCase() === e.target.value.toLowerCase()){
+                setEnableSuggestion(false)
+            }
+            else{
+                setEnableSuggestion(true)
+            }})
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
         if(!errors.nameError && !errors.durationError && !errors.countryError){
-            axios.post("http://localhost:3001/activities", {...activityData,id: activityData.countryId})
-                .then(response => {
-                    alert(response.data.msg)
+            axios.post("http://localhost:3001/activities", activityData)
+                .then(({data}) => {
+                    alert(`Activities created, failed: ${data.couldntCreate}`)
                     setActivityData({
-                        countryId: "",
                         name: "",
                         difficulty: "3",
-                        duration: "",
-                        season: "Summer"
+                        duration: 1,
+                        season: "Summer",
+                        countries: []
                     })
-                    setInputCountry("")
+                    setInputCountry({name: "", id: "", img: ""})
                     setSuggestions([])
                     dispatch(getAllCoutries())
                 })
                 .catch(error => console.log(error))
         }
         else{
-            alert("Faltan campos!")
+            alert("Form incomplete!")
         }
     }
 
@@ -118,7 +132,7 @@ export default function CreateActivityForm() {
             newErrors.nameError = false
         }
 
-        if(!inputCountry.length){
+        if(!activityData.countries.length){
             newErrors.countryError = true
         }else{
             newErrors.countryError = false
@@ -133,6 +147,20 @@ export default function CreateActivityForm() {
         setErrors(newErrors)
     }
 
+    const handleAddCountry = (e) => {
+        e.preventDefault()
+        suggestions.forEach( sugg => {
+            if(sugg.id === inputCountry.id){
+                if(!activityData.countries.find( country => country.id === sugg.id)){
+                    const upperName = sugg.name.charAt(0).toUpperCase() + sugg.name.slice(1);
+                    setActivityData({
+                        ...activityData,
+                        countries: [...activityData.countries, {name: upperName, id:sugg.id, img: sugg.flagImg}]
+                    })
+                }
+            }
+        })  
+    }
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
@@ -176,13 +204,15 @@ export default function CreateActivityForm() {
         </div>
         <div className={styles.category}>
             <label htmlFor="duration">Duration:</label>
-            <input 
+            <input
+                id={styles.durationInput}
                 className={errors.durationError ? styles.notOk : styles.ok}
-                type="number" 
+                type="number"
+                min={1}
+                max={31}
                 value={activityData.duration} 
                 onChange={handleChange}
                 name="duration" 
-                placeholder='duration in days...'
             />
         </div>
         <div className={styles.category}>
@@ -211,34 +241,50 @@ export default function CreateActivityForm() {
             </div>
         </div>
 
-        <div className={styles.countriesSearch}>
+        <div className={styles.category}>
             <label htmlFor="countriesSelected">Select country</label>
-            <input 
-                className={errors.countryError ? styles.notOk : styles.ok}
-                onChange={handleCountryChange} 
-                onFocus={()=>setEnableSuggestion(true)}
-                value={inputCountry} 
-                type="text"
-                name="countrySelection" 
-                id="countrySelection" 
-                autoComplete='off'
-            />
-            <div className={styles.suggestionList}>
-            {
-                enableSuggestion && suggestions.map( (item, index) => (
-                    <div 
-                        key={index}
-                        id={item.id}
-                        className={styles.countryOption}
-                        onClick= {handleInputCountry}
-                    > {item.name} </div>
-                ))
-            }
+            <div className={styles.countriesSearch}>
+                <div className={styles.countryInputContainer}>
+                    <input 
+                        className={errors.countryError ? styles.notOk : styles.ok}
+                        onChange={handleCountryChange} 
+                        onFocus={()=>setEnableSuggestion(true)}
+                        value={inputCountry.name} 
+                        type="text"
+                        name="countrySelection" 
+                        id="countrySelection" 
+                        autoComplete='off'
+                    />
+                    <button className={styles.addButton} onClick={handleAddCountry}> add </button>
+                </div>
+                <div className={styles.suggestionList}>
+                    
+                {
+                    enableSuggestion && suggestions.map( (item, index) => (
+                        <div 
+                            key={index}
+                            id={item.id}
+                            className={styles.countryOption}
+                            onClick= {handleInputCountry}
+                        > 
+                        <img src={item.flagImg} alt={`${item.name} flag`} />
+                        {item.name} 
+                        </div>
+                    ))
+                }
+                </div>
+            </div>
+            <div className="countriesSelected">
+                {activityData.countries.map( (country,index) => (
+                    <div className={styles.addedCountriesContainer} key={index}>
+                        <img className={styles.flagImg} src={country.img} alt={`${country.name} flag`} />
+                        <h4 id={country.id}>{country.name}</h4>
+                    </div >
+                ))}
             </div>
         </div>
-        <div className="countriesSelected"></div>
 
-        <button type="submit">Create!</button>
+        <button className={styles.submitButton} type="submit">Create!</button>
     </form>
   )
 }
