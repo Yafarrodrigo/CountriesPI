@@ -1,11 +1,11 @@
 import styles from './Header.module.css'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Filters from '../Filters/Filters'
 
 
 export default function Header() {
 
-  const params = useParams()
+  const location = useLocation()
 
   return (
     <div className={styles.header}>
@@ -15,12 +15,19 @@ export default function Header() {
           <h1>Countries</h1>
         </div>
       </Link>
-      {!params.idPais ? 
-        <Filters /> 
-      : 
-      <Link to="/home">
-        <button className={styles.backButton}> ← Volver</button>
-        </Link>}
+
+      {location.pathname === "/home" && <Filters />}
+
+      {location.pathname === "/activities/create" || location.pathname.includes("/countries") ?
+      (<Link to="/home">
+        <button className={styles.backButton}> ← Go back</button>
+      </Link>)
+      :
+      (
+        <Link to="/activities/create">
+          <button className={styles.createActButton}> Create activity</button>
+        </Link>
+      )}
     </div>
   )
 }

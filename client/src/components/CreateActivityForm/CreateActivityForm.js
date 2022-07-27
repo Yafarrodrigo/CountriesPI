@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './CreateActivityForm.module.css'
 import axios from 'axios'
-import { Redirect } from 'react-router-dom'
 import { getAllCoutries } from '../../redux/actions'
 import { useDispatch } from 'react-redux'
 
@@ -12,7 +11,7 @@ export default function CreateActivityForm() {
         name: "",
         difficulty: "3",
         duration: "",
-        season: "Verano"
+        season: "Summer"
     })
 
     const [errors, setErrors] = useState({
@@ -91,19 +90,20 @@ export default function CreateActivityForm() {
         e.preventDefault()
         if(!errors.nameError && !errors.durationError && !errors.countryError){
             axios.post("http://localhost:3001/activities", {...activityData,id: activityData.countryId})
-                .then(response => alert(response.data.msg))
+                .then(response => {
+                    alert(response.data.msg)
+                    setActivityData({
+                        countryId: "",
+                        name: "",
+                        difficulty: "3",
+                        duration: "",
+                        season: "Summer"
+                    })
+                    setInputCountry("")
+                    setSuggestions([])
+                    dispatch(getAllCoutries())
+                })
                 .catch(error => console.log(error))
-            setActivityData({
-                countryId: "",
-                name: "",
-                difficulty: "3",
-                duration: "",
-                season: "Verano"
-            })
-            setInputCountry("")
-            setSuggestions([])
-            dispatch(getAllCoutries())
-            return (<Redirect to="/home"/>)
         }
         else{
             alert("Faltan campos!")
@@ -136,20 +136,20 @@ export default function CreateActivityForm() {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-        <h1>Creador de actividades</h1>
+        <h1>Activity Creator</h1>
             <div className={styles.category}>
-                <label htmlFor="name">Nombre:</label>
+                <label htmlFor="name">Name:</label>
                 <input 
                     className={errors.nameError ? styles.notOk : styles.ok}
                     type="text" 
                     name="name" 
                     value={activityData.name} 
                     onChange={handleChange}
-                    placeholder='nombre de la actividad...'
+                    placeholder='name of the activity...'
                 />
             </div>
         <div className={styles.category}>
-            <label htmlFor="difficulty">Dificultad:</label>
+            <label htmlFor="difficulty">Difficulty:</label>
             <div className={styles.radioInputs}>
                 <label htmlFor="1"> 1 
                     <input type="radio" id="1" value="1" name="difficulty"
@@ -175,44 +175,44 @@ export default function CreateActivityForm() {
             </div>
         </div>
         <div className={styles.category}>
-            <label htmlFor="duration">Duración:</label>
+            <label htmlFor="duration">Duration:</label>
             <input 
                 className={errors.durationError ? styles.notOk : styles.ok}
                 type="number" 
                 value={activityData.duration} 
                 onChange={handleChange}
                 name="duration" 
-                placeholder='duracion de la actividad en dias...'
+                placeholder='duration in days...'
             />
         </div>
         <div className={styles.category}>
-            <label htmlFor="season">Temporada:</label>
+            <label htmlFor="season">Season:</label>
             <div className={styles.radioInputs}>
-                <label htmlFor="Verano"> Verano 
-                    <input type="radio" id="Verano" value="Verano" name="season"
-                    onChange={onSeasonChanged} checked={activityData.season === "Verano"}
+                <label htmlFor="Summer"> Summer 
+                    <input type="radio" id="Summer" value="Summer" name="season"
+                    onChange={onSeasonChanged} checked={activityData.season === "Summer"}
                     />
                 </label>
-                <label htmlFor="Verano"> Otoño
-                    <input type="radio" id="Otoño" value="Otoño" name="season"
-                    onChange={onSeasonChanged} checked={activityData.season === "Otoño"}
+                <label htmlFor="Summer"> Autumn
+                    <input type="radio" id="Autumn" value="Autumn" name="season"
+                    onChange={onSeasonChanged} checked={activityData.season === "Autumn"}
                     />
                 </label>
-                <label htmlFor="Verano"> Invierno
-                    <input type="radio" id="Invierno" value="Invierno" name="season"
-                    onChange={onSeasonChanged} checked={activityData.season === "Invierno"}
+                <label htmlFor="Summer"> Winter
+                    <input type="radio" id="Winter" value="Winter" name="season"
+                    onChange={onSeasonChanged} checked={activityData.season === "Winter"}
                     />
                 </label>
-                <label htmlFor="Verano"> Primavera
-                    <input type="radio" id="Primavera" value="Primavera" name="season"
-                    onChange={onSeasonChanged} checked={activityData.season === "Primavera"}
+                <label htmlFor="Summer"> Spring
+                    <input type="radio" id="Spring" value="Spring" name="season"
+                    onChange={onSeasonChanged} checked={activityData.season === "Spring"}
                     />
                 </label>
             </div>
         </div>
 
         <div className={styles.countriesSearch}>
-            <label htmlFor="countriesSelected">SelectCountrie</label>
+            <label htmlFor="countriesSelected">Select country</label>
             <input 
                 className={errors.countryError ? styles.notOk : styles.ok}
                 onChange={handleCountryChange} 
@@ -238,7 +238,7 @@ export default function CreateActivityForm() {
         </div>
         <div className="countriesSelected"></div>
 
-        <button type="submit">Crear!</button>
+        <button type="submit">Create!</button>
     </form>
   )
 }
