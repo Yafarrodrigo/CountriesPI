@@ -147,7 +147,8 @@ export default function CreateActivityForm() {
     const handleAddCountry = (e) => {
         e.preventDefault()
         suggestions.forEach( sugg => {
-            if(sugg.id === inputCountry.id){
+            
+            if(sugg.name === inputCountry.name){
                 if(!activityData.countries.find( country => country.id === sugg.id)){
                     const upperName = sugg.name.charAt(0).toUpperCase() + sugg.name.slice(1);
                     setActivityData({
@@ -189,7 +190,53 @@ export default function CreateActivityForm() {
         }
     }
 
+    const handlePreset = (e) => {
+        e.preventDefault()
+        const preset = {...activityData}
+        switch(e.target.id){
+            case "presetFood":
+                preset.name = "Search for food"
+                preset.difficulty = 2
+                preset.duration = 4
+                preset.season = "Spring"
+                break
+
+            case "presetSurvivors":
+                preset.name = "Search for other survivors"
+                preset.difficulty = 3
+                preset.duration = 8
+                preset.season = "Summer"
+                break
+
+            case "presetShelter":
+                preset.name = "Build a shelter"
+                preset.difficulty = 4
+                preset.duration = 12
+                preset.season = "Autumn"
+                break
+
+            case "presetSecure":
+                preset.name = "Kill zombies, secure the area"
+                preset.difficulty = 5
+                preset.duration = 4
+                preset.season = "Winter"
+                break
+            
+            default:
+                return
+        }
+        setActivityData(preset)
+    }
+
   return (
+    <>
+        <div className={styles.presets}>
+            <h3>Presets:</h3>
+            <button id="presetFood" onClick={handlePreset}>Search for food</button>
+            <button id="presetSurvivors" onClick={handlePreset}>Search for survivors</button>
+            <button id="presetShelter" onClick={handlePreset}>Build a shelter</button>
+            <button id="presetSecure" onClick={handlePreset}>Secure area</button>
+        </div>
         <form className={styles.form} onSubmit={handleSubmit}>
         <h1>Activity Creator</h1>
             <div className={styles.category}>
@@ -301,5 +348,6 @@ export default function CreateActivityForm() {
 
         <button className={styles.submitButton} type="submit">Create!</button>
     </form>
+    </>
   )
 }
