@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from './CreateActivityForm.module.css'
 import axios from 'axios'
+import skullIcon from '../CountryDetails/skull.png'
 import { getAllCoutries } from '../../redux/actions'
 import { useDispatch } from 'react-redux'
 
@@ -8,7 +9,7 @@ export default function CreateActivityForm() {
 
     const [activityData, setActivityData] = useState({
         name: "",
-        difficulty: "3",
+        difficulty: 3,
         duration: 1,
         season: "Summer",
         countries: []
@@ -68,13 +69,6 @@ export default function CreateActivityForm() {
         })
     }
 
-    const onDifficultyChanged = (e) =>{
-        setActivityData({
-            ...activityData,
-            difficulty: e.target.value
-        })
-    }
-
     const onSeasonChanged = (e) =>{
         setActivityData({
             ...activityData,
@@ -103,12 +97,15 @@ export default function CreateActivityForm() {
     const handleSubmit = (e) => {
         e.preventDefault()
         if(!errors.nameError && !errors.durationError && !errors.countryError){
-            axios.post("http://localhost:3001/activities", activityData)
+            axios.post("http://localhost:3001/activities", {
+                ...activityData,
+                 difficulty: activityData.difficulty.toString()
+                })
                 .then(({data}) => {
                     alert(`Activities created, failed: ${data.couldntCreate}`)
                     setActivityData({
                         name: "",
-                        difficulty: "3",
+                        difficulty: 3,
                         duration: 1,
                         season: "Summer",
                         countries: []
@@ -138,7 +135,7 @@ export default function CreateActivityForm() {
             newErrors.countryError = false
         }
 
-        if(activityData.duration < 1){
+        if(activityData.duration < 1 || activityData.duration > 72){
             newErrors.durationError = true
         }else{
             newErrors.durationError = false
@@ -157,13 +154,43 @@ export default function CreateActivityForm() {
                         ...activityData,
                         countries: [...activityData.countries, {name: upperName, id:sugg.id, img: sugg.flagImg}]
                     })
+                    setInputCountry({name: "", id: "", img: ""})
                 }
             }
         })  
     }
 
+    const handleRemoveCountry = (e) => {
+        e.preventDefault()
+        const deleteCountryId = e.target.id.split("-")[1]
+        setActivityData({
+            ...activityData,
+            countries: activityData.countries.filter( country => country.id !== deleteCountryId)
+        })
+    }
+
+    const increaseDifficulty = (e) => {
+        e.preventDefault()
+        if(activityData.difficulty < 5){
+            setActivityData({
+                ...activityData,
+                difficulty: activityData.difficulty + 1
+            })
+        }
+    }
+
+    const decreaseDifficulty = (e) => {
+        e.preventDefault()
+        if(activityData.difficulty > 1){
+            setActivityData({
+                ...activityData,
+                difficulty: activityData.difficulty - 1
+            })
+        }
+    }
+
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit}>
         <h1>Activity Creator</h1>
             <div className={styles.category}>
                 <label htmlFor="name">Name:</label>
@@ -174,42 +201,27 @@ export default function CreateActivityForm() {
                     value={activityData.name} 
                     onChange={handleChange}
                     placeholder='name of the activity...'
+                    autoFocus
                 />
             </div>
         <div className={styles.category}>
-            <label htmlFor="difficulty">Difficulty:</label>
-            <div className={styles.radioInputs}>
-                <label htmlFor="1"> 1 
-                    <input type="radio" id="1" value="1" name="difficulty"
-                    onChange={onDifficultyChanged} checked={activityData.difficulty === "1"}/>
-                </label>
-                <label htmlFor="2"> 2
-                    <input type="radio" id="2" value="2" name="difficulty"
-                    onChange={onDifficultyChanged} checked={activityData.difficulty === "2"}/>
-                </label>
-                <label htmlFor="3"> 3 
-                    <input type="radio" id="3" value="3" name="difficulty"
-                    onChange={onDifficultyChanged} checked={activityData.difficulty === "3"}/>
-                </label>
-                <label htmlFor="4"> 4 
-                    <input type="radio" id="4" value="4" name="difficulty"
-                    onChange={onDifficultyChanged} checked={activityData.difficulty === "4"}/>
-                </label>
-                <label htmlFor="5"> 5 
-                    <input type="radio" id="5" value="5" name="difficulty"
-                    onChange={onDifficultyChanged} checked={activityData.difficulty === "5"}/>
-                </label>
-
+        <label htmlFor="difficulty">Difficulty:</label>
+            <div id={styles.difficultyCategory}>
+                <button onClick={decreaseDifficulty}>-</button>
+                {[...Array(activityData.difficulty)].map((x, index) =>
+                  <img src={skullIcon} key={index} alt="skullIcon" />
+                )}
+                <button onClick={increaseDifficulty}>+</button>
             </div>
         </div>
         <div className={styles.category}>
-            <label htmlFor="duration">Duration:</label>
+            <label htmlFor="duration">Duration (hours) :</label>
             <input
                 id={styles.durationInput}
                 className={errors.durationError ? styles.notOk : styles.ok}
                 type="number"
                 min={1}
-                max={31}
+                max={72}
                 value={activityData.duration} 
                 onChange={handleChange}
                 name="duration" 
@@ -268,17 +280,20 @@ export default function CreateActivityForm() {
                             onClick= {handleInputCountry}
                         > 
                         <img src={item.flagImg} alt={`${item.name} flag`} />
-                        {item.name} 
+                        <span>{item.name} </span>
                         </div>
                     ))
                 }
                 </div>
             </div>
-            <div className="countriesSelected">
+            <div className={styles.countriesSelected}>
                 {activityData.countries.map( (country,index) => (
                     <div className={styles.addedCountriesContainer} key={index}>
-                        <img className={styles.flagImg} src={country.img} alt={`${country.name} flag`} />
-                        <h4 id={country.id}>{country.name}</h4>
+                        <div style={{display: "flex", width:"80%"}}>
+                            <img className={styles.flagImg} src={country.img} alt={`${country.name} flag`} />
+                            <h4 id={country.id}>{country.name}</h4>
+                        </div>
+                        <button id={`remove-${country.id}`} onClick={handleRemoveCountry} className={styles.countryRemoveButton}>remove</button>
                     </div >
                 ))}
             </div>

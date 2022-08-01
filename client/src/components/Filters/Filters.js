@@ -30,7 +30,7 @@ export default function Filters() {
   return (
     <div className={styles.filters}>
         <select name="filter" id="filter" value={filter} onChange={handleChangeFilter}>
-          <option value="all">all</option>
+          <option value="all">All continents </option>
           <option value="Europe">Europe</option>
           <option value="North America">North America</option>
           <option value="South America">South America</option>
@@ -42,12 +42,13 @@ export default function Filters() {
         <select name="order" id="order" value={order} onChange={handleChangeOrder}>
           <option value="a-z">a-z</option>
           <option value="z-a">z-a</option>
-          <option value="pop">pop</option>
-          <option value="pop-rev">pop-rev</option>
+          <option value="pop">population</option>
+          <option value="pop-rev">population-reversed</option>
         </select>
       
         <input 
           autoFocus 
+          className={styles.filterTextInput}  
           type="text"
           name="countryName" 
           id="countryName" 
@@ -57,6 +58,7 @@ export default function Filters() {
         />
 
         <input  
+          className={styles.filterTextInput}
           type="text"
           name="activityName" 
           id="activityName" 

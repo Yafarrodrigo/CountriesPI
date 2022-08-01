@@ -5,7 +5,7 @@ import Pagination from '../Pagination/Pagination'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import {increasePage, decreasePage,getFilteredCountries, getAllCoutries } from '../../redux/actions'
+import {increasePage, decreasePage,getFilteredCountries} from '../../redux/actions'
 
 
 export default function CountriesContainer() {
@@ -18,10 +18,6 @@ export default function CountriesContainer() {
   const countryName = useSelector( state => state.countryName)
   const activityName = useSelector( state => state.activityName)
   
-
-  useEffect(()=>{
-    dispatch(getAllCoutries())
-  },[dispatch])
 
   useEffect(()=>{
     dispatch(getFilteredCountries())
@@ -38,6 +34,7 @@ export default function CountriesContainer() {
   }
 
   return (
+    listOfCountries.length || !countryName.length || !activityName.length  ? 
     <>
       <Pagination />
       <div className={styles.countriesContainer}>
@@ -51,6 +48,15 @@ export default function CountriesContainer() {
               ))
             }
           </div>
+          <button className={styles.forward} onClick={handleIncrementPage}> → </button>
+      </div>
+    </>
+    :
+    <>
+      <Pagination />
+      <div className={styles.countriesContainer}>
+          <button className={styles.back} onClick={handleDecreasePage}> ← </button>
+            <h1 className={styles.loading}>Loading...</h1>
           <button className={styles.forward} onClick={handleIncrementPage}> → </button>
       </div>
     </>

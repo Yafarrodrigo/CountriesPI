@@ -41,6 +41,7 @@ function App() {
           <Redirect to="/" />
         </Route>
       </Switch>
+      
   </>) 
 }
 

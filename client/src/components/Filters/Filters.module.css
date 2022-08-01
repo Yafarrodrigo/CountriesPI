@@ -1,6 +1,7 @@
 .filters{
     margin-left: 250px;
     display: flex;
+    background: none;
 }
 
 form {
@@ -15,6 +16,12 @@ input {
     border-radius: 5px;
     border: none;
     width: 100%;
+    background: #000a;
+    color: white;
+}
+
+.filterTextInput{
+    color: white;
 }
 
 input::placeholder{
@@ -26,19 +33,6 @@ select{
     height: 50%;
     width: 200px;
     margin: 15px 5px;
-}
-
-form > button {
-    height: 80%;
-    margin: 5px 5px;
-    padding: 0 10px;
-    font-size: 1.25rem;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    background-color: var(--secondary);
-}
-
-form > button:hover {
-    background-color: var(--secondary-hover);
+    background: rgba(208, 80, 0, 0.124);
+    color: red;
 }

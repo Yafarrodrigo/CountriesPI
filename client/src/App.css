@@ -1,5 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Wet+Paint&display=swap');
+
 body{
-  background-color: #003333;
+  font-family: 'Rubik Wet Paint', cursive;
+  color: red;
+  overflow: hidden;
+}
+
+h1, h3, h5{
+  font-weight: 400;
+  text-shadow: 1px 1px black;
+}
+
+body::before{
+  content: "";
+  position: absolute;
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  height: 100%;
+  z-index: -1;
+  background-image: url("https://www.hdwallpaper.nu/wp-content/uploads/2015/12/post_wallpaper_023.jpg");
+  background-size: cover;
+  background-repeat: round;
 }
 
 .App {

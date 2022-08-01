@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom'
 import './index.css';
 import App from './App';
+import {Fog} from './components/Fog/Fog'
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
 import store from './redux/store'
@@ -12,6 +13,7 @@ ReactDOM.render(
     <Provider store = {store}>
       <BrowserRouter>
         <App />
+        <Fog />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

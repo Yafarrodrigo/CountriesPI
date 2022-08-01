@@ -87,6 +87,16 @@ const reducer = (state = initialState, action) => {
           maxPage: lastResult.length / 10 >= 1 ? Math.floor(lastResult.length / 10) : 1
         }
 
+    case "RESET_FILTERS":
+      return{
+        ...state,
+        order: "a-z",
+        continent: "all",
+        countryName: "",
+        activityName: "",
+        page: 1
+      }
+
     case "CHANGE_COUNTRY_NAME":
       return{
         ...state,

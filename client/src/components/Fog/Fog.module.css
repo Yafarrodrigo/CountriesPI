@@ -1,0 +1,64 @@
+.fog {
+    position: absolute;
+    top: 0vh;
+    height: 110vh;
+    width: 100%;
+    filter: blur(3px);
+    pointer-events: none;
+  }
+  
+  .fogContainer {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 1100%;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  .fogImgFirst {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 110vh;
+    width: 300vw;
+    z-index: 2;
+    background-repeat: repeat-x;
+    background-size: contain;
+    background-position: center;
+    animation: marquee 60s linear infinite;
+  }
+  
+  .fogImgSecond {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 300vw;
+    z-index: 2;
+    background-repeat: repeat-x;
+    background-size: contain;
+    background-position: center;
+    animation: cycle 30s infinite linear;
+  }
+  
+  @keyframes cycle {
+    0% {
+      transform: translate3d(0, 0, 0);
+      opacity: 0;
+    }
+
+    10%{
+      opacity: 1;
+    }
+
+    90%{
+      opacity: 1;
+    }
+  
+    100% {
+      transform: translate3d(-200vw, 0, 0);
+      opacity: 0;
+    }
+
+  }

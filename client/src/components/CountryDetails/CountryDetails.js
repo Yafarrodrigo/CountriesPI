@@ -1,4 +1,5 @@
 import React from 'react'
+import skullIcon from './skull.png'
 import { useDispatch, useSelector } from 'react-redux'
 import styles from './CountryDetails.module.css'
 import { Redirect, useParams } from 'react-router-dom'
@@ -29,22 +30,41 @@ export default function CountryDetails() {
   if(!willRender) return (<Redirect to="/home" />)
   else
     return (
-      <div className={styles.container}>
-         <img src={countryData.flagImg} alt={`${countryData.name} flag`} />
-         <h1 className={styles.detail}> {countryData.name} ({countryData.continent}) </h1>
-         <h1 className={styles.detail}> {countryData.id} </h1>
-         <h1 className={styles.detail}> <span>capital:</span> {countryData.capital} </h1>
-         <h1 className={styles.detail}> <span>subRegion:</span> {countryData.subRegion} </h1>
-         <h1 className={styles.detail}> <span>area:</span> {countryData.area} </h1>
-         <h1 className={styles.detail}> <span>population:</span> {countryData.population} </h1>
-         <div className={styles.activities}>
-         {countryData.length && <h2>Activities:</h2>}
-           {countryData.activities && countryData.activities.map( (act, index) => (
-             <div key={index} className={styles.activityCard}> 
-               <h3>{act.name}</h3>
-             </div>
-           ))}
-         </div>
-     </div> 
+      <div className={styles.flexContainer}>
+        <div className={styles.container}>
+          <img src={countryData.flagImg} alt={`${countryData.name} flag`} />
+          <h1 className={styles.detail}> {countryData.name} ({countryData.continent}) </h1>
+          <h1 className={styles.detail}> {countryData.id} </h1>
+          <h1 className={styles.detail}> <span>capital:</span> {countryData.capital} </h1>
+          <h1 className={styles.detail}> <span>subRegion:</span> {countryData.subRegion} </h1>
+          <h1 className={styles.detail}> <span>area:</span> {countryData.area} </h1>
+          <h1 className={styles.detail}> <span>population:</span> {countryData.population} </h1>
+          <h5 id={styles.extraInfo}>(* before apocalypse)</h5>      
+      </div>
+
+      <div className={styles.activities}>
+        <h2>Activities:</h2>
+        {countryData.activities && countryData.activities.length ?
+        countryData.activities.map( (act, index) => (
+          <div key={index} className={styles.activityCard}> 
+              <h3><span>{act.name}</span></h3>
+              <h5 id={styles.difficulty}>difficulty: 
+                <div id={styles.skullsContainer}>
+                {[...Array(act.difficulty)].map((x, index) =>
+                  <img src={skullIcon} key={index} alt="skullIcon" />
+                )}
+                  </div>
+              </h5>
+              <h5>duration: <span>{act.duration}</span> days </h5>
+              <h5>season: <span>{act.season}</span></h5>
+      </div>
+    ))
+  :
+    <h2 className={styles.noActivities}>None</h2>
+  }
+          
+      </div>
+        
+      </div>
    )
 }

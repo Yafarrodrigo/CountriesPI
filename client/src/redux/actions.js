@@ -8,6 +8,7 @@ const CHANGE_ORDER = "CHANGE_ORDER"
 const GET_COUNTRIES_BY_NAME = "GET_COUNTRIES_BY_NAME"
 const CHANGE_COUNTRY_NAME = "CHANGE_COUNTRY_NAME"
 const CHANGE_ACTIVITY_NAME = "CHANGE_ACTIVITY_NAME"
+const RESET_FILTERS = "RESET_FILTERS"
 
 export const getAllCoutries = () => {
   return async function (dispatch) {
@@ -60,6 +61,10 @@ export const changeContinentFilter = (filter) => {
 
 export const changeOrder = (order) => {
   return { type : CHANGE_ORDER, payload: order}
+}
+
+export const resetFilters = () => {
+  return {type: RESET_FILTERS}
 }
 
 export const increasePage = () => {
