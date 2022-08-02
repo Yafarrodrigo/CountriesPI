@@ -12,6 +12,12 @@
     border-radius: 5px;
 }
 
+h1{
+    color: white;
+    text-shadow: 1px 1px black;
+    font-weight: 400;
+}
+
 .presets{
     position: absolute;
     width: fit-content;
@@ -22,27 +28,13 @@
     flex-direction: column;
     text-align: center;
     color: white;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: rgba(59, 59, 25, 0.708);
 }
 
 .presets h1{
     font-weight: 400;
     text-shadow: 1px 1px black;
-}
-
-.presets button{
-    height: 50px;
-    border-radius: 10px;
-    width: 300px;
-    margin: 2px;
-    outline: none;
-    border: 1px solid #3339;
-    font-size: 1.25rem;
-}
-
-.presets button:hover{
-background-color: #ccc;
 }
 
 input{
@@ -65,13 +57,33 @@ input{
     font-size: 1.5rem;
     background-image: url("https://th.bing.com/th/id/OIP.atydPqSbaP6rS1eN-Lwp9wHaEo?pid=ImgDet&rs=1");
     background-position: -75px -5px;
-    color: red;
+    color: white;
     cursor: pointer;
     text-shadow: 2px 2px black;
 }
 
 .submitButton:hover{
-    box-shadow: 0px 0px 15px 1px red;
+    box-shadow: 0px 0px 15px 1px rgb(255, 251, 130);
+}
+
+.presetButton{
+    width: 300px;
+    height: 50px;
+    outline: none;
+    font-weight: 400;
+    margin: 5px auto;
+    border-radius: 15px;
+    border: 2px solid #8889;
+    font-size: 1.5rem;
+    background-image: url("https://th.bing.com/th/id/OIP.atydPqSbaP6rS1eN-Lwp9wHaEo?pid=ImgDet&rs=1");
+    background-position: -80px -5px;
+    color: white;
+    cursor: pointer;
+    text-shadow: 2px 2px black;
+}
+
+.presetButton:hover{
+    box-shadow: 0px 0px 15px 1px rgb(255, 251, 130);
 }
 
 
@@ -95,6 +107,23 @@ input{
     justify-content: space-between;
     align-items: center;
     font-size: 2rem;
+}
+
+#difficultyCategory button{
+    outline: none;
+    font-weight: 400;
+    border-radius: 15px;
+    border: 2px solid #8889;
+    font-size: 1.5rem;
+    background-image: url("https://th.bing.com/th/id/OIP.atydPqSbaP6rS1eN-Lwp9wHaEo?pid=ImgDet&rs=1");
+    background-position: -80px -5px;
+    color: white;
+    cursor: pointer;
+    text-shadow: 2px 2px black;
+}
+
+#difficultyCategory button:hover{
+    box-shadow: 0px 0px 15px 1px rgb(255, 251, 130);
 }
 
 #difficultyCategory img{
@@ -188,6 +217,19 @@ input{
     width: 100%;
 }
 
+.suggestionList::-webkit-scrollbar {
+    width: 20px;   
+}
+.suggestionList::-webkit-scrollbar-track {
+    background-color: rgb(159, 154, 108);
+    border-radius: 2px; 
+}
+.suggestionList::-webkit-scrollbar-thumb {
+    background-color: rgba(141, 133, 40, 0.507);
+    box-shadow: inset 0 0 10px rgb(37, 37, 28);
+    border-radius: 2px; 
+}
+
 .countriesSearch input{
     margin: 5 auto;
     width: 100%;
@@ -212,7 +254,6 @@ input{
     background-color: rgba(255, 255, 255,0.5);
     font-weight: 400;
     color: black;
-    
 }
 
 .countryOption img{
@@ -252,10 +293,24 @@ input{
 .countriesSelected{
     width: fit-content;
     margin: 0 auto;
+    margin-top: 5px;
     display: flex;
     flex-direction: column;
     max-height: 200px;
     overflow-y: scroll;
+}
+
+.countriesSelected::-webkit-scrollbar {
+    width: 20px;   
+}
+.countriesSelected::-webkit-scrollbar-track {
+    background-color: rgb(159, 154, 108);
+    border-radius: 2px; 
+}
+.countriesSelected::-webkit-scrollbar-thumb {
+    background-color: rgba(141, 133, 40, 0.507);
+    box-shadow: inset 0 0 10px rgb(37, 37, 28);
+    border-radius: 2px; 
 }
 
 .addedCountriesContainer img, .addedCountriesContainer h4{
@@ -275,11 +330,11 @@ input{
     border-radius: 15px;
     background-image: url("https://th.bing.com/th/id/OIP.atydPqSbaP6rS1eN-Lwp9wHaEo?pid=ImgDet&rs=1");
     background-position: -150px -5px;
-    color: red;
+    color: white;
 }
 
 .addButton:hover {
-    box-shadow: 0px 0px 15px 1px red;
+    box-shadow: 0px 0px 15px 1px rgb(255, 251, 130);
 }
 
 .countryRemoveButton{
@@ -295,4 +350,32 @@ input{
 
 .countryRemoveButton:hover{
     box-shadow: 0px 0px 5px 1px rgb(255, 0, 0);
+}
+
+.response{
+    position: absolute;
+    height: 75px;
+    background-color: rgb(82, 82, 43);
+    border: 3px solid rgb(106, 113, 30);
+    box-shadow: 0 5px 15px 5px rgb(120, 120, 18);
+    text-align: center;
+    padding: 15px;
+    min-width: 50%;
+    width: fit-content;
+    margin: 0 25%;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    top: 0px;
+    z-index: 1;
+    
+}
+
+.responseShow{
+    transform: translateY(50px);
+    transition: all ease-in-out 0.5s;
+}
+
+.responseHide{
+    transform: translateY(-50px);
+    transition: all ease-in-out 5s;
 }

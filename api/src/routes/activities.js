@@ -6,7 +6,8 @@ router.post("/", async (req,res)=>{
     
     try {
         const {name, difficulty, duration, season, countries} = req.body
-        let couldntCreate = 0
+        let notCreated = 0
+        let created = 0
 
         if(!name || !difficulty || !duration || !season || !countries){
             return res.status(404).json({msg: "incomplete form"})
@@ -29,11 +30,13 @@ router.post("/", async (req,res)=>{
                 const newActivity = await Activity.create({name,difficulty,duration,season})
                 
                 await newActivity.addCountry(selectedCountry)
+                created++
+
             }else{
-                couldntCreate++
+                notCreated++
             }
         }
-        return res.status(200).json({couldntCreate})
+        return res.status(200).json({created, notCreated})
     }
     catch (error) {
         return res.status(404).json({msg: error.msg})

@@ -68,7 +68,7 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
 
     case "GET_COUNTRIES": 
-        const finalList = applyFiltersAndSort(state, action.payload.list)
+        const finalList = action.payload.list.sort(checkOrder(state))
         const newMaxPage = finalList.length / 10 >= 1 ? Math.floor(finalList.length / 10) : 1
         return {
           ...state,

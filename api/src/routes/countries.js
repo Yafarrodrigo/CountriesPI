@@ -77,7 +77,7 @@ router.get("/", async (req,res)=>{
         }
         }
     } catch (error) {
-        res.status(500).json({msg: error.msg})
+        res.status(404).json({msg: error.msg})
     }
 })
 

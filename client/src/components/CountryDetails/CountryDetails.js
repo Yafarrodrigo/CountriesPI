@@ -44,6 +44,7 @@ export default function CountryDetails() {
 
       <div className={styles.activities}>
         <h2>Activities:</h2>
+        <div className={styles.activitiesContainer}>
         {countryData.activities && countryData.activities.length ?
         countryData.activities.map( (act, index) => (
           <div key={index} className={styles.activityCard}> 
@@ -55,13 +56,14 @@ export default function CountryDetails() {
                 )}
                   </div>
               </h5>
-              <h5>duration: <span>{act.duration}</span> days </h5>
+              <h5>duration: <span>{act.duration}</span> hours </h5>
               <h5>season: <span>{act.season}</span></h5>
-      </div>
-    ))
-  :
-    <h2 className={styles.noActivities}>None</h2>
-  }
+          </div>
+        ))
+        :
+          <h2 className={styles.noActivities}>None</h2>
+        }
+        </div>
           
       </div>
         

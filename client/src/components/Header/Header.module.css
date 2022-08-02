@@ -14,9 +14,10 @@
     justify-content:space-between;
     flex-wrap:nowrap;
     height: 60px;
-    box-shadow: 0px 0px 1px 2px #001111;
+    box-shadow: 0px 0px 5px 5px #001111;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    z-index: 2;
 }
 
 .header::before{
@@ -30,11 +31,11 @@
     background-image: url("https://th.bing.com/th/id/R.e750a02153c3ebe7fe7d65bff00b90a5?rik=aDtiFbeoH68jvA&pid=ImgRaw&r=0");
     background-position: 0px 100px;
     filter: blur(2px);
-    box-shadow: 5px -15px 5px 10px #d2c99d ;
+    box-shadow: 5px -15px 5px 10px rgb(255, 251, 130) ;
 }
 
 .header h1{
-    color: red;
+    color: white;
     font-style: oblique;
     margin: 12px 75px;
     cursor: pointer;
@@ -60,11 +61,12 @@
     border: 2px solid #111a;
     background-image: url("https://th.bing.com/th/id/OIP.atydPqSbaP6rS1eN-Lwp9wHaEo?pid=ImgDet&rs=1");
     background-position: -80px -5px;
-    color: red;    cursor: pointer;
+    color: white;  
+    cursor: pointer;
 }
 
 .backButton:hover{
-    box-shadow: 0px 0px 15px 1px red;
+    box-shadow: 0px 0px 15px 1px rgb(255, 251, 130);
 }
 
 .createActButton{
@@ -78,10 +80,10 @@
     background-image: url("https://th.bing.com/th/id/OIP.atydPqSbaP6rS1eN-Lwp9wHaEo?pid=ImgDet&rs=1");
     background-position: -80px -5px;
     cursor: pointer;
-    color: red;
+    color: white;
     text-shadow: 2px 2px black;
 }
 
 .createActButton:hover{
-    box-shadow: 0px 0px 15px 1px red;
+    box-shadow: 0px 0px 15px 1px rgb(255, 251, 130);
 }

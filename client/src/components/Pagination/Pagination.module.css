@@ -1,6 +1,6 @@
 .indicator{
     display: flex;
-    background-color: #706c408f;
+    background-color: #524e23e2;
     text-shadow: 1px 1px black;
     border-radius: 10px;
     padding: 10px 20px;
@@ -10,4 +10,5 @@
     margin: 0 auto;
     margin-top: 100px;
     transform: skewX(-10deg);
+    color: white;
 }

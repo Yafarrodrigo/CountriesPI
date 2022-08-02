@@ -34,5 +34,9 @@ select{
     width: 200px;
     margin: 15px 5px;
     background: rgba(208, 80, 0, 0.124);
-    color: red;
+    color: white;
+}
+
+option{
+    background-color: #000a;
 }

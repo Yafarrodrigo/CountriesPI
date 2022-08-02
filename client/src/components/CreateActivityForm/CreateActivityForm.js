@@ -7,6 +7,8 @@ import { useDispatch } from 'react-redux'
 
 export default function CreateActivityForm() {
 
+    const [response, setResponse] = useState({msg:"", show:false})
+
     const [activityData, setActivityData] = useState({
         name: "",
         difficulty: 3,
@@ -39,6 +41,17 @@ export default function CreateActivityForm() {
         checkForErrors()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activityData, inputCountry])
+
+    useEffect(()=>{
+        if(response.show && response.msg !== ""){
+            setTimeout(()=>{
+                setResponse({...response, show:false})
+                setTimeout(()=>{
+                    setResponse({msg:"", show:false})
+                },3000)
+            },3000)
+        }
+    },[response])
 
     useEffect(()=>{
         if(inputCountry.name.length){
@@ -96,13 +109,16 @@ export default function CreateActivityForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        if(response.show === true) return
         if(!errors.nameError && !errors.durationError && !errors.countryError){
             axios.post("http://localhost:3001/activities", {
                 ...activityData,
                  difficulty: activityData.difficulty.toString()
                 })
                 .then(({data}) => {
-                    alert(`Activities created, failed: ${data.couldntCreate}`)
+                    let positives = `${data.created} activities created`
+                    let negatives = data.notCreated > 0 ? ` ,${data.notCreated} already exist` : ""
+                    setResponse({msg:positives+negatives, show:true})
                     setActivityData({
                         name: "",
                         difficulty: 3,
@@ -110,6 +126,7 @@ export default function CreateActivityForm() {
                         season: "Summer",
                         countries: []
                     })
+                    
                     setInputCountry({name: "", id: "", img: ""})
                     setSuggestions([])
                     dispatch(getAllCoutries())
@@ -117,7 +134,7 @@ export default function CreateActivityForm() {
                 .catch(error => console.log(error))
         }
         else{
-            alert("Form incomplete!")
+            setResponse({msg:"Form incomplete", show:true})
         }
     }
 
@@ -230,12 +247,13 @@ export default function CreateActivityForm() {
 
   return (
     <>
+        <h1 className={response.show === true ? `${styles.response} ${styles.responseShow}` : `${styles.response} ${styles.responseHide}`}>{response.msg}</h1>
         <div className={styles.presets}>
             <h3>Presets:</h3>
-            <button id="presetFood" onClick={handlePreset}>Search for food</button>
-            <button id="presetSurvivors" onClick={handlePreset}>Search for survivors</button>
-            <button id="presetShelter" onClick={handlePreset}>Build a shelter</button>
-            <button id="presetSecure" onClick={handlePreset}>Secure area</button>
+            <button className={styles.presetButton} id="presetFood" onClick={handlePreset}>Search for food</button>
+            <button className={styles.presetButton} id="presetSurvivors" onClick={handlePreset}>Search for survivors</button>
+            <button className={styles.presetButton} id="presetShelter" onClick={handlePreset}>Build a shelter</button>
+            <button className={styles.presetButton} id="presetSecure" onClick={handlePreset}>Secure area</button>
         </div>
         <form className={styles.form} onSubmit={handleSubmit}>
         <h1>Activity Creator</h1>
