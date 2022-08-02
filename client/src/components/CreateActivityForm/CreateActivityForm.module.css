@@ -1,3 +1,5 @@
+@import '../../imgSources.css';
+
 .form{
     display: flex;
     flex-direction: column;
@@ -55,7 +57,7 @@ input{
     border-radius: 15px;
     border: 2px solid #8889;
     font-size: 1.5rem;
-    background-image: url("https://th.bing.com/th/id/OIP.atydPqSbaP6rS1eN-Lwp9wHaEo?pid=ImgDet&rs=1");
+    background-image: var(--buttons);
     background-position: -75px -5px;
     color: white;
     cursor: pointer;
@@ -115,7 +117,7 @@ input{
     border-radius: 15px;
     border: 2px solid #8889;
     font-size: 1.5rem;
-    background-image: url("https://th.bing.com/th/id/OIP.atydPqSbaP6rS1eN-Lwp9wHaEo?pid=ImgDet&rs=1");
+    background-image: var(--buttons);
     background-position: -80px -5px;
     color: white;
     cursor: pointer;
