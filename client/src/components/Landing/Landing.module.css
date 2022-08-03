@@ -1,13 +1,92 @@
 .container{
     margin:0;
-    height:100vh; /* use 100% of the height of the viewport */
+    height:100vh;
     display:grid;             
     place-items: center;
+    border-radius: 15px;
+}
+
+.infoCointainer{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    color:  white;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    height: auto;
+    backdrop-filter: blur(5px);
+    background-color: rgba(98, 98, 57, 0.672);
+}
+
+.infoCointainer p {
+    background-color: rgba(146, 145, 88, 0.573);
+    padding: 10px 10px 20px 10px;
+    text-shadow: 4px 4px black;
+    width: 90%;
+    margin: 0px auto;
+}
+
+.infoCointainer ul{
+    background-color: rgba(146, 145, 88, 0.573);
+    text-shadow: 4px 4px black;
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 15px;
+}
+
+.infoCointainer p:first-of-type{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.infoCointainer ul:last-of-type{
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.infoCointainer ul li{
+    padding-bottom: 5px;
+    margin: 0 0 0 60px;
+    align-items: center;
+}
+
+.infoCointainer ul li img{
+    margin-left: 10px;
+}
+
+.infoCointainer h1{
+    text-align: center;
+    text-shadow: 5px  5px black;
+    margin: 10px 0 20px 0;
 }
 
 .start{
-    font-size: 5rem;
-    width: 500px;
-    height: 350px;
+    position: relative;
+    font-size: 3.5rem;
+    width: 50%;
+    margin: 0 auto;
+    height: 125px;
     border-radius: 15px;
+    background: transparent;
+    color: white;
+    text-shadow: 7px 7px black;
+    cursor: pointer;
+}
+
+.start::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; 
+    height: 125px;
+    border-radius: 15px;
+    z-index: -1;
+    background-image: var(--buttons);
+    background-position: 0px 500px;
+    filter: blur(3px);
+}
+
+.start:hover{
+    box-shadow: 0px 0px 15px 1px rgb(255, 251, 130);
 }
